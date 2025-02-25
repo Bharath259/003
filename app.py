@@ -1,21 +1,15 @@
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    income = request.form['income']
-    expenses = request.form['expenses']
-    savings = request.form['savings']
+def dashboard():
+    # Get data from Google Sheets
+    data = get_google_sheet_data()
     
-    # Simple calculation for savings left
-    savings_left = float(income) - float(expenses) - float(savings)
+    # Convert to pandas DataFrame for easy handling and manipulation
+    df = pd.DataFrame(data)
     
-    return f"<h1>Submission Success</h1><p>Savings Left: ${savings_left:.2f}</p>"
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    # Group by category and calculate total amounts
+    grouped_data = df.groupby('Category').agg({'Amount': 'sum'}).reset_index()
+    
+    # Prepare data to send to the frontend
+    category_data = grouped_data.to_dict(orient='records')
+    
+    return render_template('dashboard.html', category_data=category_data)
