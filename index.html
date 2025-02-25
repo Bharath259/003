@@ -1,26 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Finance Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 36px;
+    }
+
+    table {
+      width: 60%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .refresh-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .refresh-btn:hover {
+      background-color: #0056b3;
+    }
+
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Personal Finance Tracker</h1>
-        <form action="/submit" method="POST">
-            <label for="income">Monthly Income:</label>
-            <input type="number" id="income" name="income" required>
+  <h1>Personal Finance Dashboard</h1>
 
-            <label for="expenses">Monthly Expenses:</label>
-            <input type="number" id="expenses" name="expenses" required>
+  <div class="container">
+    <!-- Display Finance Data in a Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Total Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in category_data %}
+          <tr>
+            <td>{{ row['Category'] }}</td>
+            <td>{{ row['Amount'] | round(2) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-            <label for="savings">Savings Goal:</label>
-            <input type="number" id="savings" name="savings" required>
+    <!-- Refresh Button -->
+    <a href="/" class="refresh-btn">Refresh Data</a>
+  </div>
 
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+  <div class="footer">
+    <p>&copy; 2025 Your Finance Dashboard | All Rights Reserved</p>
+  </div>
+
 </body>
 </html>
